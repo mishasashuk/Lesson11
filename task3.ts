@@ -20,4 +20,9 @@ async function loadTodo(num: number): Promise<Todo | null> {
   return null;
 }
 
-// loadTodos([1, 2, 3]).then((result) => console.log(result)); // [1, 2, 3] или [1, null, 3]
+async function loadTodos(ids: number[]): Promise<(number | null)[]> {
+  const todos = await Promise.all(ids.map((id) => loadTodo(id)));
+  return todos.map((todo) => todo?.id ?? null);
+}
+
+loadTodos([1, 2, 3]).then((result) => console.log(result)); // [1, 2, 3] или [1, null, 3]
